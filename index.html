@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>謎解き万能ターミナル（セキュリティ強化版）</title>
+    <style>
+        /* 見た目（CSS）は前回と全く同じです */
+        body { background-color: #111; color: #eee; font-family: sans-serif; text-align: center; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h1 { color: #d4af37; margin-bottom: 20px; }
+        .input-block { background-color: #222; padding: 30px 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #d4af37; }
+        input[type="text"] { width: 70%; padding: 12px; font-size: 1.2em; border: none; border-radius: 5px; margin-bottom: 15px; text-align: center; }
+        button { background-color: #8b0000; color: white; border: none; padding: 12px 30px; font-size: 1.1em; border-radius: 5px; cursor: pointer; }
+        .result-text { margin-top: 15px; font-weight: bold; font-size: 1.1em; min-height: 1.5em; }
+        .solved-section { margin-top: 30px; background-color: #1a1a1a; padding: 20px; border-radius: 10px; border: 1px dashed #555; }
+        .solved-section h3 { color: #88c0d0; margin-top: 0; }
+        .solved-answer { font-size: 1.5em; color: #4CAF50; margin: 10px 0; letter-spacing: 3px; }
+        #progressInfo { font-size: 1.2em; margin: 20px 0; padding: 10px; background-color: #333; border-radius: 5px; }
+        #secretMessage { display: none; background-color: #d4af37; color: #111; padding: 30px; border-radius: 10px; font-size: 1.5em; font-weight: bold; margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>万能ターミナル</h1>
+        <div id="progressInfo">解明数: 0 / 3 (2つ解明で次へ)</div>
+        <div id="secretMessage">
+            🎉 システム・アンロック 🎉<br>
+            見事だ。すべての条件は満たされた。<br><br>
+            <a href="#" style="color: #111; text-decoration: underline;">[最終プロトコルへ移行する]</a>
+        </div>
+        <div class="input-block">
+            <p style="color: #ccc; margin-top: 0;">導き出した答えを入力してください</p>
+            <input type="text" id="universalInput" placeholder="答えを入力">
+            <br>
+            <button onclick="checkAnswer()">照合する</button>
+            <div id="mainResult" class="result-text"></div>
+        </div>
+        <div class="solved-section">
+            <h3>解明済みのキーワード</h3>
+            <div id="solvedList"></div>
+        </div>
+    </div>
+
+    <script>
+        // ★ここが重要！ 平仮名の代わりに、暗号化ツールで作った長い文字列を入れます。
+        // ※以下の文字列はダミーです。ステップ1のツールを使って書き換えてください。
+        const validHashes = [
+            "82b6cc40ee9a47a969e6d3e72eb864d739e023931c2f1fa8f04f1c94acc558cc", 
+            "89ff6eda0da0618a4f72bbe9a30ece8b33efccd405844e16962579d21f32d33e", 
+            "984d9e3133d6b45720cad57cacbb665dfdf452662a83ffdc39b9011810be8cfa",
+            "1e2870d4edd28b3c5b99bceca599a8c4dbc41e7a640cad5f94f20871bc68807a",
+            "82bae538d2c2aabba703e8e01b19a5052e5922f47618783aae98d978a8d68572",
+            "afafbae591c156ee7f019d48ea7a74beb639f38112cda9fa29c06bd5dd77f5c8",
+            "4eb1aad8637eec4cd6214024121b2498663f0726d8716cf2eac2f18b6f59a56f",
+            "7610abf07fedc0b7edc16eb6a830b352bd85c20f0a8bf72f52700bccc0911efe" 
+        ];
+        
+        let solvedAnswers = [];
+        const requiredClears = 2; 
+
+        // 入力された文字をハッシュ化する関数
+        async function getHash(message) {
+            const msgUint8 = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // async をつけて非同期処理に対応させます
+        async function checkAnswer() {
+            let inputField = document.getElementById("universalInput");
+            let input = inputField.value.trim();
+            let resultArea = document.getElementById("mainResult");
+
+            if (input === "") {
+                resultArea.innerText = "答えを入力してください。";
+                resultArea.style.color = "#ffcc00";
+                return;
+            }
+
+            if (solvedAnswers.includes(input)) {
+                resultArea.innerText = "そのキーワードはすでに解明済みだ。";
+                resultArea.style.color = "#ffcc00";
+                inputField.value = "";
+                return;
+            }
+
+            // ユーザーが入力した文字を、プログラム内でこっそり暗号化する
+            let inputHash = await getHash(input);
+
+            // 用意した暗号リスト（validHashes）の中に、入力された暗号が含まれているかチェック
+            if (validHashes.includes(inputHash)) {
+                solvedAnswers.push(input); 
+                
+                resultArea.innerText = "照合成功！新たなキーワードを解明した！";
+                resultArea.style.color = "#4CAF50";
+                inputField.value = ""; 
+
+                let list = document.getElementById("solvedList");
+                let newItem = document.createElement("div");
+                newItem.className = "solved-answer";
+                newItem.innerText = "【 " + input + " 】";
+                list.appendChild(newItem); 
+
+                updateProgress(); 
+            } else {
+                resultArea.innerText = "エラー：該当するキーワードはありません。";
+                resultArea.style.color = "#ff3333";
+            }
+        }
+
+        function updateProgress() {
+            let currentScore = solvedAnswers.length;
+            document.getElementById("progressInfo").innerText = "解明数: " + currentScore + " / 3 (2つ解明で次へ)";
+            if (currentScore >= requiredClears) {
+                document.getElementById("secretMessage").style.display = "block";
+                document.getElementById("universalInput").disabled = true; 
+            }
+        }
+    </script>
+</body>
+</html>
