@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ★変更可能：ブラウザのタブに表示されるタイトル★ -->
     <title>小謎展覧会 - 解答入力</title>
+    
     <style>
-        /* ＝＝＝ 通常モード（表）のデザイン ＝＝＝ */
         body { 
             background-color: #faf9f5; 
             color: #333; 
@@ -14,194 +16,132 @@
             padding: 40px 20px; 
             transition: background-color 1s, color 1s; 
         }
-        .container { 
-            max-width: 600px; 
-            margin: 0 auto; 
-        }
-        h1 { 
-            color: #2c2c2c; 
-            font-size: 2em;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            transition: color 1s;
-        }
-        .subtitle {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-            transition: color 1s;
-        }
-        .progress-text {
-            color: #555;
-            font-size: 1.1em;
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-            border-bottom: 1px solid #ddd;
-            display: inline-block;
-            padding-bottom: 10px;
-            transition: color 1s, border-color 1s;
-        }
-        .input-block { 
-            background-color: #fff; 
-            padding: 40px 30px; 
-            margin-bottom: 40px; 
-            border: 1px solid #e0dcd3; 
-            box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.05); 
-            position: relative;
-            transition: background-color 1s, border-color 1s;
-        }
-        .input-block::before {
-            content: "";
-            position: absolute;
-            top: 5px; left: 5px; right: 5px; bottom: 5px;
-            border: 1px solid #f5eedc;
-            pointer-events: none;
-            transition: border-color 1s;
-        }
-        input[type="text"] { 
-            width: 70%; 
-            padding: 15px; 
-            font-size: 1.2em; 
-            border: 0;
-            border-bottom: 2px solid #ccc; 
-            background-color: transparent;
-            margin-bottom: 25px; 
-            text-align: center; 
-            font-family: 'Yu Mincho', 'Hiragino Mincho ProN', serif;
-            outline: none;
-            transition: 0.3s;
-            color: inherit; /* モードに合わせて文字色を変える */
-        }
-        input[type="text"]:focus {
-            border-bottom: 2px solid #8b0000; 
-        }
-        button { 
-            background-color: #8b0000; 
-            color: white; 
-            border: none; 
-            padding: 12px 40px; 
-            font-size: 1.1em; 
-            cursor: pointer; 
-            transition: 0.3s; 
-            font-family: 'Yu Mincho', 'Hiragino Mincho ProN', serif;
-            letter-spacing: 2px;
-        }
+        .container { max-width: 600px; margin: 0 auto; }
+        h1 { color: #2c2c2c; font-size: 2em; margin-bottom: 10px; letter-spacing: 2px; transition: color 1s; }
+        .subtitle { color: #666; font-size: 0.9em; margin-bottom: 20px; letter-spacing: 1px; transition: color 1s; }
+        .progress-text { color: #555; font-size: 1.1em; margin-bottom: 40px; letter-spacing: 2px; border-bottom: 1px solid #ddd; display: inline-block; padding-bottom: 10px; transition: color 1s, border-color 1s; }
+        .input-block { background-color: #fff; padding: 40px 30px; margin-bottom: 40px; border: 1px solid #e0dcd3; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.05); position: relative; transition: background-color 1s, border-color 1s; }
+        .input-block::before { content: ""; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; border: 1px solid #f5eedc; pointer-events: none; transition: border-color 1s; }
+        input[type="text"] { width: 70%; padding: 15px; font-size: 1.2em; border: 0; border-bottom: 2px solid #ccc; background-color: transparent; margin-bottom: 25px; text-align: center; font-family: 'Yu Mincho', 'Hiragino Mincho ProN', serif; outline: none; transition: 0.3s; color: inherit; }
+        input[type="text"]:focus { border-bottom: 2px solid #8b0000; }
+        button { background-color: #8b0000; color: white; border: none; padding: 12px 40px; font-size: 1.1em; cursor: pointer; transition: 0.3s; font-family: 'Yu Mincho', 'Hiragino Mincho ProN', serif; letter-spacing: 2px; }
         button:hover { background-color: #600000; }
         .result-text { margin-top: 20px; font-size: 1.1em; min-height: 1.5em; }
 
-        #completeMessage {
-            display: none;
-            background-color: #fff;
-            border: 1px solid #d4af37;
-            padding: 50px 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
-            position: relative;
-            transition: background-color 1s, border-color 1s;
-        }
-        .complete-title {
-            color: #d4af37; font-size: 1.8em; margin-bottom: 25px; letter-spacing: 4px;
-        }
-        .complete-text {
-            color: #333; font-size: 1.3em; line-height: 2.0; letter-spacing: 1px;
-            transition: color 1s;
-        }
+        /* クリアメッセージのデザイン */
+        .clear-message-box { display: none; background-color: #fff; border: 1px solid #d4af37; padding: 50px 30px; margin-bottom: 40px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.2); position: relative; transition: background-color 1s, border-color 1s; }
+        .complete-title { color: #d4af37; font-size: 1.8em; margin-bottom: 25px; letter-spacing: 4px; }
+        .complete-text { color: #333; font-size: 1.3em; line-height: 2.0; letter-spacing: 1px; transition: color 1s; margin-bottom: 25px; }
         
         .solved-section { margin-top: 50px; }
-        .solved-section h3 { 
-            color: #555; margin-bottom: 20px; font-weight: normal;
-            border-bottom: 1px solid #ddd; display: inline-block; padding-bottom: 5px;
-            transition: color 1s, border-color 1s;
-        }
-        .solved-list-container {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;
-        }
-        .solved-answer { 
-            font-size: 1.2em; color: #333; padding: 15px 25px;
-            background-color: #fff; border: 1px solid #d4af37; 
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.03); letter-spacing: 2px; 
-            transition: background-color 1s, color 1s, border-color 1s;
-        }
+        .solved-section h3 { color: #555; margin-bottom: 20px; font-weight: normal; border-bottom: 1px solid #ddd; display: inline-block; padding-bottom: 5px; transition: color 1s, border-color 1s; }
+        .solved-list-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .solved-answer { font-size: 1.2em; color: #333; padding: 15px 25px; background-color: #fff; border: 1px solid #d4af37; box-shadow: 2px 2px 8px rgba(0,0,0,0.03); letter-spacing: 2px; transition: background-color 1s, color 1s, border-color 1s; }
 
-        .reset-btn { 
-            background-color: transparent; font-size: 0.8em; padding: 8px 15px; 
-            margin-top: 80px; color: #aaa; border: 1px solid #ddd; cursor: pointer;
-            transition: color 1s, border-color 1s;
-        }
+        .reset-btn { background-color: transparent; font-size: 0.8em; padding: 8px 15px; margin-top: 80px; color: #aaa; border: 1px solid #ddd; cursor: pointer; transition: color 1s, border-color 1s; }
         .reset-btn:hover { color: #666; border-color: #999; }
 
-        /* 🌟🌟🌟 変更：バックルーム（裏）モードのデザイン（視認性アップ） 🌟🌟🌟 */
-        body.backroom-mode {
-            background-color: #121212; /* 少しだけ明るい黒に変更（完全な漆黒を避ける） */
-            color: #e0e0e0; /* 文字を明るいグレーにして読みやすく */
-        }
-        /* タイトルなどを、暗い赤（#8b0000）から鮮やかな赤（#ff5555）に変更 */
+        /* 裏モードのデザイン */
+        body.backroom-mode { background-color: #121212; color: #e0e0e0; }
         body.backroom-mode h1 { color: #ff5555; } 
         body.backroom-mode .subtitle { color: #aaa; }
         body.backroom-mode .progress-text { color: #ccc; border-color: #444; }
-        
-        body.backroom-mode .input-block {
-            background-color: #1e1e1e; /* 入力欄の背景を少し浮かせる */
-            border-color: #ff5555;
-            box-shadow: 2px 4px 15px rgba(255, 85, 85, 0.1);
-        }
+        body.backroom-mode .input-block { background-color: #1e1e1e; border-color: #ff5555; box-shadow: 2px 4px 15px rgba(255, 85, 85, 0.1); }
         body.backroom-mode .input-block::before { border-color: #333; }
-        body.backroom-mode input[type="text"] {
-            border-bottom: 2px solid #666;
-        }
+        body.backroom-mode input[type="text"] { border-bottom: 2px solid #666; }
         body.backroom-mode input[type="text"]:focus { border-bottom: 2px solid #ff5555; }
-        
         body.backroom-mode .solved-section h3 { color: #bbb; border-color: #444; }
-        body.backroom-mode .solved-answer {
-            background-color: #252525;
-            color: #eee;
-            border: 1px solid #772222; /* 解答済みの枠線を暗い赤に */
-        }
-        body.backroom-mode #completeMessage {
-            background-color: #1e1e1e;
-            border-color: #ff5555;
-        }
+        body.backroom-mode .solved-answer { background-color: #252525; color: #eee; border: 1px solid #772222; }
+        body.backroom-mode .clear-message-box { background-color: #1e1e1e; border-color: #ff5555; }
         body.backroom-mode .complete-title { color: #ff5555; }
         body.backroom-mode .complete-text { color: #e0e0e0; }
         body.backroom-mode .reset-btn { color: #888; border-color: #444; }
         body.backroom-mode .reset-btn:hover { color: #fff; border-color: #888; }
+
+        /* Xシェア用のボタンデザイン */
+        .x-share-btn {
+            display: inline-block;
+            background-color: #000;
+            color: #fff;
+            border: 1px solid #333;
+            padding: 10px 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: sans-serif;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        .x-share-btn:hover { background-color: #222; border-color: #555; }
+        body.backroom-mode .x-share-btn { border-color: #ff5555; }
+        body.backroom-mode .x-share-btn:hover { background-color: #222; }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <!-- ★変更可能：メインタイトル★ -->
         <h1>小謎展覧会</h1>
+        
+        <!-- ★変更可能：サブタイトル★ -->
         <div class="subtitle">--- 解答入力 ---</div>
 
         <div id="progressDisplay" class="progress-text">解答済みの作品： 0 / 25</div>
 
-        <!-- コンプリートメッセージ -->
-        <div id="completeMessage"></div>
+        <!-- ★変更可能：表モード（1〜25）をすべて解いた時のメッセージ★ -->
+        <div id="frontClearMessage" class="clear-message-box">
+            <div class="complete-title">ALL CLEAR?</div>
+            <div class="complete-text">
+                あなたは小謎展覧会場で解ける謎を<br>
+                すべて解き明かした！
+            </div>
+            <button class="x-share-btn" onclick="shareOnX('half_clear')">𝕏 で報告する</button>
+        </div>
+
+        <!-- ★変更可能：裏モードを含め全50問を解いた時のメッセージ★ -->
+        <div id="fullClearMessage" class="clear-message-box">
+            <div class="complete-title">CONGRATULATIONS!</div>
+            <div class="complete-text">
+                あなたはバックルームで小謎展覧会の裏事情を知り<br>
+                すべての小謎を解き明かした！
+            </div>
+            <button class="x-share-btn" onclick="shareOnX('full_clear')">𝕏 で報告する</button>
+        </div>
 
         <div id="inputArea" class="input-block">
+            <!-- ★変更可能：入力欄の上の説明文★ -->
             <p style="color: inherit; margin-top: 0; margin-bottom: 20px; opacity: 0.8;">小謎の答えをご入力ください</p>
+            
+            <!-- ★変更可能：入力欄に薄く表示される文字（placeholderの中身）★ -->
             <input type="text" id="universalInput" placeholder="答えを入力">
             <br>
+            
+            <!-- ★変更可能：ボタンの文字★ -->
             <button onclick="checkAnswer()">解答する</button>
             <div id="mainResult" class="result-text"></div>
+            
+            <div id="shareContainer"></div>
         </div>
 
         <div class="solved-section">
+            <!-- ★変更可能：正解した一覧の上の見出し★ -->
             <h3>解答済みの作品</h3>
-            <div id="solvedList" class="solved-list-container">
-                <!-- ここに正解した言葉が追加されます -->
-            </div>
+            <div id="solvedList" class="solved-list-container"></div>
         </div>
 
+        <!-- ★変更可能：リセットボタンの文字★ -->
         <button class="reset-btn" onclick="resetData()">記憶を白紙に戻す（データリセット）</button>
     </div>
 
     <script>
         let validHashes = [];
         let solvedAnswers = [];
-        
         let isBackroomMode = false;
+        
+        // 🌟 表(1~25)と裏(26~50)の正解数を別々にカウントします
+        let frontCount = 0;
+        let backCount = 0;
 
         async function getHash(message) {
             const msgUint8 = new TextEncoder().encode(message);
@@ -210,12 +150,30 @@
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
+        // --- 𝕏 シェア機能のテキスト設定 ---
+        function shareOnX(type) {
+            let text = "";
+            let hashtags = "algoフェス2026,小謎展覧会"; 
+
+            if (type === 'half_clear') {
+                text = "小謎展覧会のすべての小謎を解いた...？\n\n";
+            } else if (type === 'backroom_enter') {
+                text = "小謎展覧会の裏側を見た...！\n\n";
+            } else if (type === 'full_clear') {
+                text = "小謎展覧会のすべての小謎を解いた！\n\n";
+            }
+
+            let shareUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) + "&hashtags=" + encodeURIComponent(hashtags);
+            window.open(shareUrl, '_blank');
+        }
+
         async function init() {
-            // テストモード：1〜50のハッシュ値を自動生成
+            // ▼▼▼ テストモード：1〜50のハッシュ値を自動生成 ▼▼▼
             for (let i = 1; i <= 50; i++) {
                 let hash = await getHash(String(i)); 
                 validHashes.push(hash);
             }
+            // ▲▲▲ 本番時はここを削除して、本物のハッシュ値を入れます ▲▲▲
 
             let savedMode = localStorage.getItem("nazotokiBackroomMode");
             if (savedMode === "true") {
@@ -227,14 +185,23 @@
             if (savedData) {
                 solvedAnswers = JSON.parse(savedData);
                 let list = document.getElementById("solvedList");
-                solvedAnswers.forEach(function(answer) {
+                
+                // セーブデータから表と裏の正解数を計算
+                for (let i = 0; i < solvedAnswers.length; i++) {
+                    let answer = solvedAnswers[i];
+                    let h = await getHash(answer);
+                    let idx = validHashes.indexOf(h);
+                    if (idx !== -1) {
+                        if (idx < 25) frontCount++;
+                        else backCount++;
+                    }
+                    
                     let newItem = document.createElement("div");
                     newItem.className = "solved-answer";
                     newItem.innerText = answer;
                     list.appendChild(newItem);
-                });
+                }
             }
-            
             updateProgress();
         }
 
@@ -242,38 +209,36 @@
 
         function updateProgress() {
             let totalQuestions = isBackroomMode ? 50 : 25;
-            let currentScore = solvedAnswers.length;
+            let currentScore = frontCount + backCount; 
             
             document.getElementById("progressDisplay").innerText = 
                 "解答済みの作品： " + currentScore + " / " + totalQuestions;
 
-            if (currentScore >= totalQuestions && totalQuestions > 0) {
+            let frontClearMsg = document.getElementById("frontClearMessage");
+            let fullClearMsg = document.getElementById("fullClearMessage");
+            let inputArea = document.getElementById("inputArea");
+
+            // 一旦すべてのメッセージを隠す
+            frontClearMsg.style.display = "none";
+            fullClearMsg.style.display = "none";
+            inputArea.style.display = "block";
+
+            // 🌟 クリア状態の判定
+            if (frontCount >= 25 && backCount >= 25) {
+                // 完全クリア（全50問）
+                fullClearMsg.style.display = "block";
+                inputArea.style.display = "none";
+            } else if (frontCount >= 25) {
+                // 表クリア（1〜25問）※裏世界にいても表示されます
+                frontClearMsg.style.display = "block";
+                
                 if (!isBackroomMode) {
-                    document.getElementById("completeMessage").innerHTML = `
-                        <div class="complete-title" style="color:#d4af37;">ALL CLEAR?</div>
-                        <div class="complete-text">
-                            表の展示作品はすべて鑑賞されました。<br>
-                            しかし、この展覧会には隠された<br>
-                            「裏の顔」があるようです……。
-                        </div>
-                    `;
-                    document.getElementById("completeMessage").style.display = "block";
+                    // まだ裏世界を見つけていなければ入力欄を隠す
+                    inputArea.style.display = "none";
                 } else {
-                    document.getElementById("completeMessage").innerHTML = `
-                        <div class="complete-title">CONGRATULATIONS!</div>
-                        <div class="complete-text">
-                            おめでとうございます。<br>
-                            あなたはすべての小謎を解き明かしました！<br><br>
-                            その素晴らしい閃きと観察力に、<br>
-                            最大の敬意を表します。
-                        </div>
-                    `;
-                    document.getElementById("inputArea").style.display = "none";
-                    document.getElementById("completeMessage").style.display = "block";
+                    // 裏世界にいる場合は、26〜50問目を入力するために欄を残す
+                    inputArea.style.display = "block";
                 }
-            } else {
-                document.getElementById("completeMessage").style.display = "none";
-                document.getElementById("inputArea").style.display = "block";
             }
         }
 
@@ -281,33 +246,37 @@
             let inputField = document.getElementById("universalInput");
             let input = inputField.value.trim();
             let resultArea = document.getElementById("mainResult");
+            
+            document.getElementById("shareContainer").innerHTML = "";
 
-            // ★エラーメッセージの色もモードに合わせて読みやすく調整しました
             let colorWarning = isBackroomMode ? "#ffcc00" : "#b8860b";
             let colorError   = isBackroomMode ? "#ff5555" : "#8b0000";
             let colorSuccess = isBackroomMode ? "#99cc99" : "#2e8b57";
 
             if (input === "") {
-                resultArea.innerText = "答えが記入されていません。";
+                resultArea.innerText = "答えを入力してください。";
                 resultArea.style.color = colorWarning; 
                 return;
             }
 
-            // 🌟 変更：解放の呪文をひらがなに
             if (input === "ばっくるーむ") {
                 if (!isBackroomMode) {
                     isBackroomMode = true;
                     localStorage.setItem("nazotokiBackroomMode", "true"); 
                     document.body.classList.add("backroom-mode"); 
                     
-                    resultArea.innerText = "……裏世界への扉が開きました。";
-                    resultArea.style.color = "#ff5555"; // 読みやすい赤
+                    resultArea.innerText = "ようこそ、小謎展覧会のバックルームへ。";
+                    resultArea.style.color = "#ff5555";
                     inputField.value = "";
+                    
+                    document.getElementById("shareContainer").innerHTML = `
+                        <button class="x-share-btn" onclick="shareOnX('backroom_enter')">𝕏 で報告する</button>
+                    `;
                     
                     updateProgress(); 
                     return;
                 } else {
-                    resultArea.innerText = "すでに裏世界に足を踏み入れています。";
+                    resultArea.innerText = "すでにバックルームに足を踏み入れています。";
                     resultArea.style.color = colorError; 
                     inputField.value = "";
                     return;
@@ -315,7 +284,7 @@
             }
 
             if (solvedAnswers.includes(input)) {
-                resultArea.innerText = "その作品の謎は、すでに解き明かされています。";
+                resultArea.innerText = "解答されています。";
                 resultArea.style.color = colorWarning;
                 inputField.value = "";
                 return;
@@ -325,17 +294,23 @@
             let hashIndex = validHashes.indexOf(inputHash);
 
             if (hashIndex !== -1) {
-                
                 if (hashIndex >= 25 && !isBackroomMode) {
-                    resultArea.innerText = "その答えを持つ展示品は見つかりません。";
+                    resultArea.innerText = "...まだその答えにたどり着くのは早いようです。";
                     resultArea.style.color = colorError; 
                     return;
+                }
+
+                // 🌟 正解が表か裏かを判定してカウントを増やす
+                if (hashIndex < 25) {
+                    frontCount++;
+                } else {
+                    backCount++;
                 }
 
                 solvedAnswers.push(input); 
                 localStorage.setItem("nazotokiData", JSON.stringify(solvedAnswers));
                 
-                resultArea.innerText = "見事です。新たな作品の謎を解き明かしました。";
+                resultArea.innerText = "正解です。";
                 resultArea.style.color = colorSuccess; 
                 inputField.value = ""; 
 
@@ -348,13 +323,13 @@
                 updateProgress();
 
             } else {
-                resultArea.innerText = "その答えを持つ展示品は見つかりません。";
+                resultArea.innerText = "不正解です、もう一度考えてみましょう。";
                 resultArea.style.color = colorError; 
             }
         }
 
         function resetData() {
-            if (confirm("これまでの解答記録をすべて消去し、最初からやり直しますか？")) {
+            if (confirm("これまでの解答記録をすべて消去し、最初からやり直しますか？\n（復元はできません）")) {
                 localStorage.removeItem("nazotokiData");
                 localStorage.removeItem("nazotokiBackroomMode"); 
                 location.reload(); 
