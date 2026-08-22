@@ -93,7 +93,8 @@
         <div id="frontClearMessage" class="clear-message-box">
             <div class="complete-title">ALL CLEAR?</div>
             <div class="complete-text">
-                あなたは小謎展覧会場で解ける謎をすべて解き明かした！
+                あなたは小謎展覧会場で解ける謎を<br>
+                すべて解き明かした！
             </div>
             <button class="x-share-btn" onclick="shareOnX('half_clear')">𝕏 で報告する</button>
         </div>
@@ -138,7 +139,6 @@
         let solvedAnswers = [];
         let isBackroomMode = false;
         
-        // 🌟 表(1~25)と裏(26~50)の正解数を別々にカウントします
         let frontCount = 0;
         let backCount = 0;
 
@@ -149,30 +149,28 @@
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        // --- 𝕏 シェア機能のテキスト設定 ---
+        // 🌟 スマホ対策版：文章に直接ハッシュタグを組み込みます
         function shareOnX(type) {
             let text = "";
-            let hashtags = "algoフェス2026,小謎展覧会"; 
+            let hashtags = "\n\n#algoフェス2026 #小謎展覧会"; 
 
             if (type === 'half_clear') {
-                text = "小謎展覧会のすべての小謎を解いた...？\n\n";
+                text = "小謎展覧会のすべての小謎を解いた...？" + hashtags;
             } else if (type === 'backroom_enter') {
-                text = "小謎展覧会の裏側を見た...！\n\n";
+                text = "小謎展覧会の裏側を見た...！" + hashtags;
             } else if (type === 'full_clear') {
-                text = "小謎展覧会のすべての小謎を解いた！\n\n";
+                text = "小謎展覧会のすべての小謎を解いた！" + hashtags;
             }
 
-            let shareUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) + "&hashtags=" + encodeURIComponent(hashtags);
+            let shareUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
             window.open(shareUrl, '_blank');
         }
 
         async function init() {
-            // ▼▼▼ テストモード：1〜50のハッシュ値を自動生成 ▼▼▼
             for (let i = 1; i <= 50; i++) {
                 let hash = await getHash(String(i)); 
                 validHashes.push(hash);
             }
-            // ▲▲▲ 本番時はここを削除して、本物のハッシュ値を入れます ▲▲▲
 
             let savedMode = localStorage.getItem("nazotokiBackroomMode");
             if (savedMode === "true") {
@@ -185,7 +183,6 @@
                 solvedAnswers = JSON.parse(savedData);
                 let list = document.getElementById("solvedList");
                 
-                // セーブデータから表と裏の正解数を計算
                 for (let i = 0; i < solvedAnswers.length; i++) {
                     let answer = solvedAnswers[i];
                     let h = await getHash(answer);
@@ -222,22 +219,16 @@
             fullClearMsg.style.display = "none";
             inputArea.style.display = "block";
 
-            // 🌟 クリア状態の判定
             if (frontCount >= 25 && backCount >= 25) {
-                // 完全クリア（全50問）
+                // 完全クリア（全50問）の時だけ入力欄を隠す
                 fullClearMsg.style.display = "block";
                 inputArea.style.display = "none";
             } else if (frontCount >= 25) {
-                // 表クリア（1〜25問）※裏世界にいても表示されます
+                // 表クリア（1〜25問）
                 frontClearMsg.style.display = "block";
                 
-                if (!isBackroomMode) {
-                    // まだ裏世界を見つけていなければ入力欄を隠す
-                    inputArea.style.display = "none";
-                } else {
-                    // 裏世界にいる場合は、26〜50問目を入力するために欄を残す
-                    inputArea.style.display = "block";
-                }
+                // 修正点：まだ隠しパスワードを入れる可能性があるため、常に入力欄を残す
+                inputArea.style.display = "block";
             }
         }
 
@@ -299,7 +290,6 @@
                     return;
                 }
 
-                // 🌟 正解が表か裏かを判定してカウントを増やす
                 if (hashIndex < 25) {
                     frontCount++;
                 } else {
