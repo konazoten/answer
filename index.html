@@ -20,23 +20,40 @@
         h1 { color: #2c2c2c; font-size: 2em; margin-bottom: 10px; letter-spacing: 2px; transition: color 1s; }
         .subtitle { color: #666; font-size: 0.9em; margin-bottom: 20px; letter-spacing: 1px; transition: color 1s; }
         .progress-text { color: #555; font-size: 1.1em; margin-bottom: 40px; letter-spacing: 2px; border-bottom: 1px solid #ddd; display: inline-block; padding-bottom: 10px; transition: color 1s, border-color 1s; }
-        .input-block { background-color: #fff; padding: 40px 30px; margin-bottom: 40px; border: 1px solid #e0dcd3; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.05); position: relative; transition: background-color 1s, border-color 1s; }
+        .input-block { background-color: #fff; padding: 40px 20px; margin-bottom: 40px; border: 1px solid #e0dcd3; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.05); position: relative; transition: background-color 1s, border-color 1s; }
         .input-block::before { content: ""; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; border: 1px solid #f5eedc; pointer-events: none; transition: border-color 1s; }
-        input[type="text"] { width: 70%; padding: 15px; font-size: 1.2em; border: 0; border-bottom: 2px solid #ccc; background-color: transparent; margin-bottom: 25px; text-align: center; font-family: 'Yu Mincho', 'Hiragino Mincho ProN', serif; outline: none; transition: 0.3s; color: inherit; }
+        
+        /* 🌟 変更：入力欄の幅を100%に広げ、文字がスマホでも見切れないように調整しました */
+        input[type="text"] { 
+            width: 100%; 
+            max-width: 400px;
+            box-sizing: border-box;
+            padding: 15px 5px; 
+            font-size: 1.1em; 
+            border: 0; 
+            border-bottom: 2px solid #ccc; 
+            background-color: transparent; 
+            margin-bottom: 25px; 
+            text-align: center; 
+            font-family: 'Yu Mincho', 'Hiragino Mincho ProN', serif; 
+            outline: none; 
+            transition: 0.3s; 
+            color: inherit; 
+        }
         input[type="text"]:focus { border-bottom: 2px solid #8b0000; }
         button { background-color: #8b0000; color: white; border: none; padding: 12px 40px; font-size: 1.1em; cursor: pointer; transition: 0.3s; font-family: 'Yu Mincho', 'Hiragino Mincho ProN', serif; letter-spacing: 2px; }
         button:hover { background-color: #600000; }
         .result-text { margin-top: 20px; font-size: 1.1em; min-height: 1.5em; }
 
         /* クリアメッセージのデザイン */
-        .clear-message-box { display: none; background-color: #fff; border: 1px solid #d4af37; padding: 50px 30px; margin-bottom: 40px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.2); position: relative; transition: background-color 1s, border-color 1s; }
+        .clear-message-box { display: none; background-color: #fff; border: 1px solid #d4af37; padding: 50px 20px; margin-bottom: 40px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.2); position: relative; transition: background-color 1s, border-color 1s; }
         .complete-title { color: #d4af37; font-size: 1.8em; margin-bottom: 25px; letter-spacing: 4px; }
-        .complete-text { color: #333; font-size: 1.3em; line-height: 2.0; letter-spacing: 1px; transition: color 1s; margin-bottom: 25px; }
+        .complete-text { color: #333; font-size: 1.2em; line-height: 1.8; letter-spacing: 1px; transition: color 1s; margin-bottom: 25px; }
         
         .solved-section { margin-top: 50px; }
         .solved-section h3 { color: #555; margin-bottom: 20px; font-weight: normal; border-bottom: 1px solid #ddd; display: inline-block; padding-bottom: 5px; transition: color 1s, border-color 1s; }
-        .solved-list-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
-        .solved-answer { font-size: 1.2em; color: #333; padding: 15px 25px; background-color: #fff; border: 1px solid #d4af37; box-shadow: 2px 2px 8px rgba(0,0,0,0.03); letter-spacing: 2px; transition: background-color 1s, color 1s, border-color 1s; }
+        .solved-list-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        .solved-answer { font-size: 1.1em; color: #333; padding: 12px 20px; background-color: #fff; border: 1px solid #d4af37; box-shadow: 2px 2px 8px rgba(0,0,0,0.03); letter-spacing: 2px; transition: background-color 1s, color 1s, border-color 1s; }
 
         .reset-btn { background-color: transparent; font-size: 0.8em; padding: 8px 15px; margin-top: 80px; color: #aaa; border: 1px solid #ddd; cursor: pointer; transition: color 1s, border-color 1s; }
         .reset-btn:hover { color: #666; border-color: #999; }
@@ -114,7 +131,7 @@
             <p style="color: inherit; margin-top: 0; margin-bottom: 20px; opacity: 0.8;">小謎の答えをご入力ください</p>
             
             <!-- ★変更可能：入力欄に薄く表示される文字★ -->
-            <input type="text" id="universalInput" placeholder="ひらがな又は数字で入力">
+            <input type="text" id="universalInput" placeholder="答えをひらがな又は数字で入力">
             <br>
             
             <button onclick="checkAnswer()">解答する</button>
@@ -133,9 +150,8 @@
 
     <script>
         // ▼▼▼ 本番用：ここにあなたが作ったハッシュ値を入れます ▼▼▼
-        // 下記はテスト用のダミーです。「"ハッシュ値",」の形でいくつでも増やせます！
         
-        // 【表の謎】（何個でもOK）
+        // 【表の謎】
         let frontHashes = [
             "6f8370465dd52f6ad97e8115178eb41b9e8f97bb615593a60c26727e45143e50", //しゅにく
             "5f945f18ef58973201d6df7fc5efda98c57557242b02afb62e8023aacc832b54",//に
@@ -147,6 +163,7 @@
             "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",//1
             "7a09fbecff3df29c0288fb96a2febe76de701455829f35c7ef1a62c21beabe50",//すみれ
             "984d9e3133d6b45720cad57cacbb665dfdf452662a83ffdc39b9011810be8cfa",//ぱん
+            "b1f3e4af476aa5281357c7eb533b228b803cc4c9da8316dfe5be544fe5019fd2",//どんと
             "1810ddc318875050aaa280306b59ddab8a091473b62ed8bacc887a16d8730777",//ひきこもり
             "8c155c196a5738f923546119c39179c2f7c7fd3ce7c6c6548cadf3fca61a1e42",//ふれっと
             "09fa715cd3e62090cd39ebdd7089437eb0c7ce032ba58d880107901477139b48",//かいひん
@@ -164,13 +181,13 @@
             "33c805b7ef7606dbc7f3092208f4df6191962446a8758623aa4a22d4b8cecd6e",//くま
             "102d96985aa7e8e56724ba5975c9ce98991dc52083a0a681d9ce300ecf4926b4",//ことぶき
             "89ff6eda0da0618a4f72bbe9a30ece8b33efccd405844e16962579d21f32d33e",//うけつけ
-            "c26edd7ebde90557c99d660cf07bed7f81b3e0729c7ecb4d96c8594877363ade",//そう
-            "e37b4c6709af14db34a78c986232bc823e8592e4fd6756fe5405a350975268dd",//どっと
-            "16a3a1fb7cb79bfb23cfab61143ad9202ea5a338c55307fcb44f389932ac5b4a"//みこ
+            "c26edd7ebde90557c99d660cf07bed7f81b3e0729c7ecb4d96c8594877363ade"//そう
         ];
 
-        // 【裏の謎】（何個でもOK）
+        // 【裏の謎】
         let backHashes = [
+            "16a3a1fb7cb79bfb23cfab61143ad9202ea5a338c55307fcb44f389932ac5b4a",//みこ
+            "e37b4c6709af14db34a78c986232bc823e8592e4fd6756fe5405a350975268dd",//どっと
             "d4aa67c4ab35a0c14150d2519eeb3ab0f1761c538dc62725fe2953e22779c222",//うし
             "bcad89d03dc316a2dc9a0be27fe021d12943c9a65ff89fa21be6dcf32be28268",//おうこく
             "bda405521f3a3ede88f7522e05f03348e42a0a7a392fda5a82a0110071317905",//いきもの
@@ -242,7 +259,6 @@
         window.onload = init;
 
         function updateProgress() {
-            // プログラムが自動で問題数を数えます
             let totalFront = frontHashes.length;
             let totalBack = backHashes.length;
             let totalQuestions = isBackroomMode ? (totalFront + totalBack) : totalFront;
@@ -259,13 +275,10 @@
             fullClearMsg.style.display = "none";
             inputArea.style.display = "block";
 
-            // ★ハッシュ値が0個の時に勝手にクリアにならないように「> 0」の条件を入れています
             if (frontCount >= totalFront && totalFront > 0 && backCount >= totalBack && totalBack > 0) {
-                // 完全クリア（表も裏も全部解いた）
                 fullClearMsg.style.display = "block";
-                inputArea.style.display = "none"; // 完全クリア時のみ入力欄を隠す
+                inputArea.style.display = "none"; 
             } else if (frontCount >= totalFront && totalFront > 0) {
-                // 表のみクリア（入力欄は残る）
                 frontClearMsg.style.display = "block";
                 inputArea.style.display = "block";
             }
@@ -288,7 +301,6 @@
                 return;
             }
 
-            // ★変更可能：裏世界に行くための隠しパスワード★
             if (input === "ばっくるーむ") {
                 if (!isBackroomMode) {
                     isBackroomMode = true;
@@ -326,7 +338,6 @@
 
             if (isFront || isBack) {
                 if (isBack && !isBackroomMode) {
-                    // まだ表の世界なのに、裏の答えを入れてしまった場合
                     resultArea.innerText = "...まだその答えにたどり着くのは早いようです。";
                     resultArea.style.color = colorError; 
                     return;
