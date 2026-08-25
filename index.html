@@ -87,9 +87,9 @@
         <!-- ★変更可能：サブタイトル★ -->
         <div class="subtitle">--- 解答入力 ---</div>
 
-        <div id="progressDisplay" class="progress-text">解答済みの作品： 0 / 25</div>
+        <div id="progressDisplay" class="progress-text">解答済みの作品： 0 / 0</div>
 
-        <!-- ★変更可能：表モード（1〜25）をすべて解いた時のメッセージ★ -->
+        <!-- ★変更可能：表モードをすべて解いた時のメッセージ★ -->
         <div id="frontClearMessage" class="clear-message-box">
             <div class="complete-title">ALL CLEAR?</div>
             <div class="complete-text">
@@ -99,7 +99,7 @@
             <button class="x-share-btn" onclick="shareOnX('half_clear')">𝕏 で報告する</button>
         </div>
 
-        <!-- ★変更可能：裏モードを含め全50問を解いた時のメッセージ★ -->
+        <!-- ★変更可能：裏モードを含めすべて解いた時のメッセージ★ -->
         <div id="fullClearMessage" class="clear-message-box">
             <div class="complete-title">CONGRATULATIONS!</div>
             <div class="complete-text">
@@ -113,11 +113,10 @@
             <!-- ★変更可能：入力欄の上の説明文★ -->
             <p style="color: inherit; margin-top: 0; margin-bottom: 20px; opacity: 0.8;">小謎の答えをご入力ください</p>
             
-            <!-- ★変更可能：入力欄に薄く表示される文字（placeholderの中身）★ -->
-            <input type="text" id="universalInput" placeholder="答えを入力">
+            <!-- ★変更可能：入力欄に薄く表示される文字★ -->
+            <input type="text" id="universalInput" placeholder="答えをひらがな又は数字で入力">
             <br>
             
-            <!-- ★変更可能：ボタンの文字★ -->
             <button onclick="checkAnswer()">解答する</button>
             <div id="mainResult" class="result-text"></div>
             
@@ -125,17 +124,61 @@
         </div>
 
         <div class="solved-section">
-            <!-- ★変更可能：正解した一覧の上の見出し★ -->
             <h3>解答済みの作品</h3>
             <div id="solvedList" class="solved-list-container"></div>
         </div>
 
-        <!-- ★変更可能：リセットボタンの文字★ -->
         <button class="reset-btn" onclick="resetData()">記憶を白紙に戻す（データリセット）</button>
     </div>
 
     <script>
-        let validHashes = [];
+        // ▼▼▼ 本番用：ここにあなたが作ったハッシュ値を入れます ▼▼▼
+        // 下記はテスト用のダミーです。「"ハッシュ値",」の形でいくつでも増やせます！
+        
+        // 【表の謎】（何個でもOK）
+        let frontHashes = [
+            "6f8370465dd52f6ad97e8115178eb41b9e8f97bb615593a60c26727e45143e50", //しゅにく
+            "5f945f18ef58973201d6df7fc5efda98c57557242b02afb62e8023aacc832b54",//に
+            "5b8e117d98f74425c081277600ac1a92a9d18dc61c55e90bddb681d551efa4a6",//いらすと
+            "49a26f238ce8f673e5cfd4dc276ed6a3ffc7b09511f5bbd0f7a09c8392c98f4f",//すきん
+            "82b6cc40ee9a47a969e6d3e72eb864d739e023931c2f1fa8f04f1c94acc558cc",//ある
+            "fbfb103bf699f014e3d8b1f7ae4c88e062a6665ed8203906162e6e7e722cf042",//おう
+            "c41f0a5fe732bab65d19675c2740634f5ef96de4567c16503333e7613a31356b",//いき
+            "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",//1
+            "7a09fbecff3df29c0288fb96a2febe76de701455829f35c7ef1a62c21beabe50",//すみれ
+            "984d9e3133d6b45720cad57cacbb665dfdf452662a83ffdc39b9011810be8cfa",//ぱん
+            "1810ddc318875050aaa280306b59ddab8a091473b62ed8bacc887a16d8730777",//ひきこもり
+            "8c155c196a5738f923546119c39179c2f7c7fd3ce7c6c6548cadf3fca61a1e42",//ふれっと
+            "09fa715cd3e62090cd39ebdd7089437eb0c7ce032ba58d880107901477139b48",//かいひん
+            "ff68778f1ee444a5c15867c86c8113929e11e911fb0c77961d5fddcb3b778ffd",//まじかるばなな
+            "7d7edc2171cac3b52400ae0475f363ee0be5ce577d6400b0e41130cee1e7fe0e",//あさって
+            "88a9f6609db82ea111938ef0268a685d6aa094b1d7d1b9ca4aa0335ba37094ef",//ろ
+            "ec3e0b5960bfbc3a74e36d2e981e860217a86122bee2cb667e8589f7da2388c4",//とびらえ
+            "3387005a4f308d7cb5df9403d777d0ab76c8e43afba9c69ad180962a07850f55",//きぼう
+            "7bd4cbf1e39e07983a2038148ff0d47bde308b1d5e7ff0a55e6dc8a703ea22e6",//おに
+            "8de9f2662b2005b6a758bcb2b68d7de4b26cc59ed3627a16a70bc209240f7ce6",//とびうお
+            "2988c0b7c21e73cd6415a353f7a30858a61d80a6e8a7b6bb921b700ef1c3599a",//りんぐ
+            "8fdeea6fabb0797b36ebbf071cd65a9bd320b4d681b69db03d923b811ac277a1",//みきさー
+            "57034684f8d473182c313353787c7230b9480ee231f3c032235f30a2c9c52532",//くい
+            "82bae538d2c2aabba703e8e01b19a5052e5922f47618783aae98d978a8d68572",//みせ
+            "33c805b7ef7606dbc7f3092208f4df6191962446a8758623aa4a22d4b8cecd6e",//くま
+            "102d96985aa7e8e56724ba5975c9ce98991dc52083a0a681d9ce300ecf4926b4",//ことぶき
+            "89ff6eda0da0618a4f72bbe9a30ece8b33efccd405844e16962579d21f32d33e",//うけつけ
+            "c26edd7ebde90557c99d660cf07bed7f81b3e0729c7ecb4d96c8594877363ade",//そう
+            "e37b4c6709af14db34a78c986232bc823e8592e4fd6756fe5405a350975268dd",//どっと
+            "16a3a1fb7cb79bfb23cfab61143ad9202ea5a338c55307fcb44f389932ac5b4a"//みこ
+        ];
+
+        // 【裏の謎】（何個でもOK）
+        let backHashes = [
+            "d4aa67c4ab35a0c14150d2519eeb3ab0f1761c538dc62725fe2953e22779c222",//うし
+            "bcad89d03dc316a2dc9a0be27fe021d12943c9a65ff89fa21be6dcf32be28268",//おうこく
+            "bda405521f3a3ede88f7522e05f03348e42a0a7a392fda5a82a0110071317905",//いきもの
+            "12b6954a54ead3995689d490aa0cae56549e8d76adb5e8e5622ee707c147cb41",//ないす
+            "2a758facc818d48507b0152aa2408b00d61dcc41021b2b62c5d453f40498e8a8"//ひこうしき
+        ];
+        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
         let solvedAnswers = [];
         let isBackroomMode = false;
         
@@ -149,7 +192,6 @@
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
-        // 🌟 スマホ対策版：文章に直接ハッシュタグを組み込みます
         function shareOnX(type) {
             let text = "";
             let hashtags = "\n\n#algoフェス2026 #小謎展覧会"; 
@@ -167,11 +209,6 @@
         }
 
         async function init() {
-            for (let i = 1; i <= 50; i++) {
-                let hash = await getHash(String(i)); 
-                validHashes.push(hash);
-            }
-
             let savedMode = localStorage.getItem("nazotokiBackroomMode");
             if (savedMode === "true") {
                 isBackroomMode = true;
@@ -186,10 +223,11 @@
                 for (let i = 0; i < solvedAnswers.length; i++) {
                     let answer = solvedAnswers[i];
                     let h = await getHash(answer);
-                    let idx = validHashes.indexOf(h);
-                    if (idx !== -1) {
-                        if (idx < 25) frontCount++;
-                        else backCount++;
+                    
+                    if (frontHashes.includes(h)) {
+                        frontCount++;
+                    } else if (backHashes.includes(h)) {
+                        backCount++;
                     }
                     
                     let newItem = document.createElement("div");
@@ -204,7 +242,10 @@
         window.onload = init;
 
         function updateProgress() {
-            let totalQuestions = isBackroomMode ? 50 : 25;
+            // プログラムが自動で問題数を数えます
+            let totalFront = frontHashes.length;
+            let totalBack = backHashes.length;
+            let totalQuestions = isBackroomMode ? (totalFront + totalBack) : totalFront;
             let currentScore = frontCount + backCount; 
             
             document.getElementById("progressDisplay").innerText = 
@@ -214,20 +255,18 @@
             let fullClearMsg = document.getElementById("fullClearMessage");
             let inputArea = document.getElementById("inputArea");
 
-            // 一旦すべてのメッセージを隠す
             frontClearMsg.style.display = "none";
             fullClearMsg.style.display = "none";
             inputArea.style.display = "block";
 
-            if (frontCount >= 25 && backCount >= 25) {
-                // 完全クリア（全50問）の時だけ入力欄を隠す
+            // ★ハッシュ値が0個の時に勝手にクリアにならないように「> 0」の条件を入れています
+            if (frontCount >= totalFront && totalFront > 0 && backCount >= totalBack && totalBack > 0) {
+                // 完全クリア（表も裏も全部解いた）
                 fullClearMsg.style.display = "block";
-                inputArea.style.display = "none";
-            } else if (frontCount >= 25) {
-                // 表クリア（1〜25問）
+                inputArea.style.display = "none"; // 完全クリア時のみ入力欄を隠す
+            } else if (frontCount >= totalFront && totalFront > 0) {
+                // 表のみクリア（入力欄は残る）
                 frontClearMsg.style.display = "block";
-                
-                // 修正点：まだ隠しパスワードを入れる可能性があるため、常に入力欄を残す
                 inputArea.style.display = "block";
             }
         }
@@ -249,6 +288,7 @@
                 return;
             }
 
+            // ★変更可能：裏世界に行くための隠しパスワード★
             if (input === "ばっくるーむ") {
                 if (!isBackroomMode) {
                     isBackroomMode = true;
@@ -281,18 +321,20 @@
             }
 
             let inputHash = await getHash(input);
-            let hashIndex = validHashes.indexOf(inputHash);
+            let isFront = frontHashes.includes(inputHash);
+            let isBack = backHashes.includes(inputHash);
 
-            if (hashIndex !== -1) {
-                if (hashIndex >= 25 && !isBackroomMode) {
+            if (isFront || isBack) {
+                if (isBack && !isBackroomMode) {
+                    // まだ表の世界なのに、裏の答えを入れてしまった場合
                     resultArea.innerText = "...まだその答えにたどり着くのは早いようです。";
                     resultArea.style.color = colorError; 
                     return;
                 }
 
-                if (hashIndex < 25) {
+                if (isFront) {
                     frontCount++;
-                } else {
+                } else if (isBack) {
                     backCount++;
                 }
 
