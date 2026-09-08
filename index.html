@@ -163,7 +163,6 @@
             "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",//1
             "7a09fbecff3df29c0288fb96a2febe76de701455829f35c7ef1a62c21beabe50",//すみれ
             "984d9e3133d6b45720cad57cacbb665dfdf452662a83ffdc39b9011810be8cfa",//ぱん
-            "1810ddc318875050aaa280306b59ddab8a091473b62ed8bacc887a16d8730777",//ひきこもり
             "8c155c196a5738f923546119c39179c2f7c7fd3ce7c6c6548cadf3fca61a1e42",//ふれっと
             "09fa715cd3e62090cd39ebdd7089437eb0c7ce032ba58d880107901477139b48",//かいひん
             "ff68778f1ee444a5c15867c86c8113929e11e911fb0c77961d5fddcb3b778ffd",//まじかるばなな
@@ -181,29 +180,31 @@
             "102d96985aa7e8e56724ba5975c9ce98991dc52083a0a681d9ce300ecf4926b4",//ことぶき
             "89ff6eda0da0618a4f72bbe9a30ece8b33efccd405844e16962579d21f32d33e",//うけつけ
             "c26edd7ebde90557c99d660cf07bed7f81b3e0729c7ecb4d96c8594877363ade",//そう
-            "e37b4c6709af14db34a78c986232bc823e8592e4fd6756fe5405a350975268dd",//どっと
-            "16a3a1fb7cb79bfb23cfab61143ad9202ea5a338c55307fcb44f389932ac5b4a",//みこ
             "5288f470a9b6ce68c1a3f40438f6723e9525ff15b8eab11490f9a76f957b750a",//えいご
             "2a1ba23cc1d5d8399b7183b24af47ec0b1304f4f2efabed7ff9ab825cdcdb0f8",//しーと
-            "ba804410e9373ebcb55863d17b11a87bc11278bc39dafd4430e7df848d34bccf",//はま
+            "52cbf7d2e61f58a18fb3d85d9d2b0fef477b25e008f9f102c78d843361d14d1a",//ちか
             "aa296eea6d35675dcfdf532f725362b8628952c21bf4f71f1b98dc2914bb9ab1",//はいえな
             "0223d250da4b35a510b0b364e29b2c708cff86df3f0c8126148aa94f93a9f057",//かんとう
             "6bc4de97bfb8923a7a18691c5ba5857c36ab9dc086fa5f91fa53926a4362b347",//かがくかん
             "7d35f4f0ad925cc8e9f524a527bedc0c74ff1ef6e0f82bdab858d8259ae61864",//たらばがに
             "6351754c5d53a48fb09fc2212e362e26b1826e29dff423b24383b54aaafae5ad",//いんさつ
-            "12b6954a54ead3995689d490aa0cae56549e8d76adb5e8e5622ee707c147cb41",//ないす
+            "30b83af1978fb5e53a0e088538ae58c1dcbf33f3def2f403ebb6499f82f6105b",//あい
+            "d359ff78c3878f263d6b6a026c9bf20244caaa9e9886df9009cd428eb7d550d2",//かいせい
+            "63baf3bbc2393366f0265d2c1ee2902f7702df61f3bcb3890b66faf9601ad0e9",//くく
         ];
 
         // 【裏の謎】
         let backHashes = [
-            "d4aa67c4ab35a0c14150d2519eeb3ab0f1761c538dc62725fe2953e22779c222",//うし
+            "5f262b6e2129f39c4e553585cc935a3020a15f27d63a12b80c1959788b244076",//かう
             "bcad89d03dc316a2dc9a0be27fe021d12943c9a65ff89fa21be6dcf32be28268",//おうこく
             "bda405521f3a3ede88f7522e05f03348e42a0a7a392fda5a82a0110071317905",//いきもの
             "2a758facc818d48507b0152aa2408b00d61dcc41021b2b62c5d453f40498e8a8",//ひこうしき
             "648edd42e10c5a6512be3e535828f38cd8d267b2a440100d6e4c9ed5aec9f076",//ごうご
             "49ae4bef4f7ec47a37fbf1d2dada669ce98e1d127541ed031cbc4250d9c70db3",//りてん
-            "52cbf7d2e61f58a18fb3d85d9d2b0fef477b25e008f9f102c78d843361d14d1a",//ちか
             "9e5deee718862f00125b9306ddd22d7b74d07ea52472f0ae7f5e324b251c37c0",//あいますく
+            "12b6954a54ead3995689d490aa0cae56549e8d76adb5e8e5622ee707c147cb41",//ないす
+            "ba804410e9373ebcb55863d17b11a87bc11278bc39dafd4430e7df848d34bccf",//はま
+            "9db9b0d1d13c019f367aab2f5e7f1284ec72e9695babfae7dcf4c1d14db5a9c7",//どる
         ];
         // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
@@ -349,7 +350,7 @@
 
             if (isFront || isBack) {
                 if (isBack && !isBackroomMode) {
-                    resultArea.innerText = "...まだその答えにたどり着くのは早いようです。";
+                    resultArea.innerText = "不正解...？";
                     resultArea.style.color = colorError; 
                     return;
                 }
