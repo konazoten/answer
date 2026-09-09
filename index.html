@@ -23,6 +23,7 @@
         .input-block { background-color: #fff; padding: 40px 20px; margin-bottom: 40px; border: 1px solid #e0dcd3; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.05); position: relative; transition: background-color 1s, border-color 1s; }
         .input-block::before { content: ""; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; border: 1px solid #f5eedc; pointer-events: none; transition: border-color 1s; }
         
+        /* 🌟 変更：入力欄の幅を100%に広げ、文字がスマホでも見切れないように調整しました */
         input[type="text"] { 
             width: 100%; 
             max-width: 400px;
@@ -44,20 +45,6 @@
         button:hover { background-color: #600000; }
         .result-text { margin-top: 20px; font-size: 1.1em; min-height: 1.5em; }
 
-        /* ヒント機能のデザイン */
-        .hint-container { margin-bottom: 40px; text-align: left; }
-        .hint-container > details { background-color: #fff; border: 1px solid #e0dcd3; padding: 15px 20px; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.05); transition: background-color 1s, border-color 1s; }
-        .hint-main-summary { cursor: pointer; color: #8b0000; font-weight: bold; font-size: 1.1em; text-align: center; list-style: none; outline: none; }
-        .hint-main-summary::-webkit-details-marker { display: none; }
-        .hint-list { margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 10px; transition: border-color 1s;}
-        .hint-item { margin-bottom: 10px; }
-        .hint-item summary { cursor: pointer; color: #555; font-size: 1.05em; padding: 10px 5px; border-bottom: 1px solid #eee; transition: color 1s, border-color 1s; }
-        .hint-text { padding: 15px 10px; font-size: 0.95em; color: #444; line-height: 1.6; background-color: #faf9f5; transition: background-color 1s, color 1s; }
-
-        /* 裏専用ヒントを隠す仕組み */
-        .backroom-hint { display: none; }
-        body.backroom-mode .backroom-hint { display: block; }
-
         /* クリアメッセージのデザイン */
         .clear-message-box { display: none; background-color: #fff; border: 1px solid #d4af37; padding: 50px 20px; margin-bottom: 40px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.2); position: relative; transition: background-color 1s, border-color 1s; }
         .complete-title { color: #d4af37; font-size: 1.8em; margin-bottom: 25px; letter-spacing: 4px; }
@@ -68,7 +55,7 @@
         .solved-list-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
         .solved-answer { font-size: 1.1em; color: #333; padding: 12px 20px; background-color: #fff; border: 1px solid #d4af37; box-shadow: 2px 2px 8px rgba(0,0,0,0.03); letter-spacing: 2px; transition: background-color 1s, color 1s, border-color 1s; }
 
-        .reset-btn { background-color: transparent; font-size: 0.8em; padding: 8px 15px; margin-top: 80px; color: #aaa; border: 1px solid #ddd; cursor: pointer; transition: color 1s, border-color 1s; }
+        .reset-btn { background-color: transparent; font-size: 0.8em; padding: 8px 15px; margin-top: 40px; color: #aaa; border: 1px solid #ddd; cursor: pointer; transition: color 1s, border-color 1s; }
         .reset-btn:hover { color: #666; border-color: #999; }
 
         /* 裏モードのデザイン追加分 */
@@ -87,6 +74,20 @@
         body.backroom-mode .complete-text { color: #e0e0e0; }
         body.backroom-mode .reset-btn { color: #888; border-color: #444; }
         body.backroom-mode .reset-btn:hover { color: #fff; border-color: #888; }
+        
+        /* ヒント機能のデザイン */
+        .hint-container { margin-top: 60px; margin-bottom: 40px; text-align: left; }
+        .hint-container > details { background-color: #fff; border: 1px solid #e0dcd3; padding: 15px 20px; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.05); transition: background-color 1s, border-color 1s; }
+        .hint-main-summary { cursor: pointer; color: #8b0000; font-weight: bold; font-size: 1.1em; text-align: center; list-style: none; outline: none; }
+        .hint-main-summary::-webkit-details-marker { display: none; }
+        .hint-list { margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 10px; transition: border-color 1s;}
+        .hint-item { margin-bottom: 10px; }
+        .hint-item summary { cursor: pointer; color: #555; font-size: 1.05em; padding: 10px 5px; border-bottom: 1px solid #eee; transition: color 1s, border-color 1s; }
+        .hint-text { padding: 15px 10px; font-size: 0.95em; color: #444; line-height: 1.6; background-color: #faf9f5; transition: background-color 1s, color 1s; }
+
+        /* 裏専用ヒントを隠す仕組み */
+        .backroom-hint { display: none; }
+        body.backroom-mode .backroom-hint { display: block; }
         
         /* 裏モードのヒントデザイン */
         body.backroom-mode .hint-container > details { background-color: #1e1e1e; border-color: #ff5555; box-shadow: 2px 4px 15px rgba(255, 85, 85, 0.1); }
@@ -150,12 +151,17 @@
             <div id="shareContainer"></div>
         </div>
 
+        <div class="solved-section">
+            <h3>解答済みの作品</h3>
+            <div id="solvedList" class="solved-list-container"></div>
+        </div>
+
         <!-- 🌟🌟 ヒントエリア 🌟🌟 -->
         <div class="hint-container">
             <details>
                 <summary class="hint-main-summary">💡 ヒントを見る（タップして開く）</summary>
                 <div class="hint-list">
-                    <p style="text-align:center; font-size:0.9em; color:#888; margin-bottom:20px;">※どうしても分からない時だけ見てください。</p>
+                    <p style="text-align:center; font-size:0.9em; color:#888; margin-bottom:20px;">※どうしても分からない時にご覧ください</p>
                     
                     <!-- ▼▼ 表のヒント ▼▼ -->
                     <details class="hint-item">
@@ -222,69 +228,65 @@
         </div>
         <!-- 🌟🌟 ヒントエリアここまで 🌟🌟 -->
 
-        <div class="solved-section">
-            <h3>解答済みの作品</h3>
-            <div id="solvedList" class="solved-list-container"></div>
-        </div>
-
         <button class="reset-btn" onclick="resetData()">記憶を白紙に戻す（データリセット）</button>
     </div>
 
     <script>
         // 【表の謎】
         let frontHashes = [
-            "6f8370465dd52f6ad97e8115178eb41b9e8f97bb615593a60c26727e45143e50", 
-            "5f945f18ef58973201d6df7fc5efda98c57557242b02afb62e8023aacc832b54",
-            "5b8e117d98f74425c081277600ac1a92a9d18dc61c55e90bddb681d551efa4a6",
-            "49a26f238ce8f673e5cfd4dc276ed6a3ffc7b09511f5bbd0f7a09c8392c98f4f",
-            "82b6cc40ee9a47a969e6d3e72eb864d739e023931c2f1fa8f04f1c94acc558cc",
-            "fbfb103bf699f014e3d8b1f7ae4c88e062a6665ed8203906162e6e7e722cf042",
-            "c41f0a5fe732bab65d19675c2740634f5ef96de4567c16503333e7613a31356b",
-            "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
-            "7a09fbecff3df29c0288fb96a2febe76de701455829f35c7ef1a62c21beabe50",
-            "984d9e3133d6b45720cad57cacbb665dfdf452662a83ffdc39b9011810be8cfa",
-            "8c155c196a5738f923546119c39179c2f7c7fd3ce7c6c6548cadf3fca61a1e42",
-            "09fa715cd3e62090cd39ebdd7089437eb0c7ce032ba58d880107901477139b48",
-            "ff68778f1ee444a5c15867c86c8113929e11e911fb0c77961d5fddcb3b778ffd",
-            "7d7edc2171cac3b52400ae0475f363ee0be5ce577d6400b0e41130cee1e7fe0e",
-            "88a9f6609db82ea111938ef0268a685d6aa094b1d7d1b9ca4aa0335ba37094ef",
-            "ec3e0b5960bfbc3a74e36d2e981e860217a86122bee2cb667e8589f7da2388c4",
-            "3387005a4f308d7cb5df9403d777d0ab76c8e43afba9c69ad180962a07850f55",
-            "7bd4cbf1e39e07983a2038148ff0d47bde308b1d5e7ff0a55e6dc8a703ea22e6",
-            "8de9f2662b2005b6a758bcb2b68d7de4b26cc59ed3627a16a70bc209240f7ce6",
-            "2988c0b7c21e73cd6415a353f7a30858a61d80a6e8a7b6bb921b700ef1c3599a",
-            "8fdeea6fabb0797b36ebbf071cd65a9bd320b4d681b69db03d923b811ac277a1",
-            "681f08fbc7c37cc1c921e0d92fb548007a6cfd6e07c6e6d0a3baf0b69a6d8120",
-            "82bae538d2c2aabba703e8e01b19a5052e5922f47618783aae98d978a8d68572",
-            "33c805b7ef7606dbc7f3092208f4df6191962446a8758623aa4a22d4b8cecd6e",
-            "102d96985aa7e8e56724ba5975c9ce98991dc52083a0a681d9ce300ecf4926b4",
-            "89ff6eda0da0618a4f72bbe9a30ece8b33efccd405844e16962579d21f32d33e",
-            "c26edd7ebde90557c99d660cf07bed7f81b3e0729c7ecb4d96c8594877363ade",
-            "5288f470a9b6ce68c1a3f40438f6723e9525ff15b8eab11490f9a76f957b750a",
-            "2a1ba23cc1d5d8399b7183b24af47ec0b1304f4f2efabed7ff9ab825cdcdb0f8",
-            "52cbf7d2e61f58a18fb3d85d9d2b0fef477b25e008f9f102c78d843361d14d1a",
-            "aa296eea6d35675dcfdf532f725362b8628952c21bf4f71f1b98dc2914bb9ab1",
-            "0223d250da4b35a510b0b364e29b2c708cff86df3f0c8126148aa94f93a9f057",
-            "6bc4de97bfb8923a7a18691c5ba5857c36ab9dc086fa5f91fa53926a4362b347",
-            "7d35f4f0ad925cc8e9f524a527bedc0c74ff1ef6e0f82bdab858d8259ae61864",
-            "6351754c5d53a48fb09fc2212e362e26b1826e29dff423b24383b54aaafae5ad",
-            "30b83af1978fb5e53a0e088538ae58c1dcbf33f3def2f403ebb6499f82f6105b",
-            "d359ff78c3878f263d6b6a026c9bf20244caaa9e9886df9009cd428eb7d550d2",
-            "63baf3bbc2393366f0265d2c1ee2902f7702df61f3bcb3890b66faf9601ad0e9",
+            "6f8370465dd52f6ad97e8115178eb41b9e8f97bb615593a60c26727e45143e50",//しゅにく
+            "5f945f18ef58973201d6df7fc5efda98c57557242b02afb62e8023aacc832b54",//に
+            "5b8e117d98f74425c081277600ac1a92a9d18dc61c55e90bddb681d551efa4a6",//いらすと
+            "49a26f238ce8f673e5cfd4dc276ed6a3ffc7b09511f5bbd0f7a09c8392c98f4f",//すきん
+            "82b6cc40ee9a47a969e6d3e72eb864d739e023931c2f1fa8f04f1c94acc558cc",//ある
+            "fbfb103bf699f014e3d8b1f7ae4c88e062a6665ed8203906162e6e7e722cf042",//おう
+            "c41f0a5fe732bab65d19675c2740634f5ef96de4567c16503333e7613a31356b",//いき
+            "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",//1
+            "7a09fbecff3df29c0288fb96a2febe76de701455829f35c7ef1a62c21beabe50",//すみれ
+            "984d9e3133d6b45720cad57cacbb665dfdf452662a83ffdc39b9011810be8cfa",//ぱん
+            "8c155c196a5738f923546119c39179c2f7c7fd3ce7c6c6548cadf3fca61a1e42",//ふれっと
+            "09fa715cd3e62090cd39ebdd7089437eb0c7ce032ba58d880107901477139b48",//かいひん
+            "ff68778f1ee444a5c15867c86c8113929e11e911fb0c77961d5fddcb3b778ffd",//まじかるばなな
+            "7d7edc2171cac3b52400ae0475f363ee0be5ce577d6400b0e41130cee1e7fe0e",//あさって
+            "88a9f6609db82ea111938ef0268a685d6aa094b1d7d1b9ca4aa0335ba37094ef",//ろ
+            "ec3e0b5960bfbc3a74e36d2e981e860217a86122bee2cb667e8589f7da2388c4",//びきに
+            "bd90e289cef49a4787a93331aa9cd4ef769342519c02bbad85ff772408a964a0",//とびらえ
+            "3387005a4f308d7cb5df9403d777d0ab76c8e43afba9c69ad180962a07850f55",//きぼう
+            "7bd4cbf1e39e07983a2038148ff0d47bde308b1d5e7ff0a55e6dc8a703ea22e6",//おに
+            "8de9f2662b2005b6a758bcb2b68d7de4b26cc59ed3627a16a70bc209240f7ce6",//とびうお
+            "2988c0b7c21e73cd6415a353f7a30858a61d80a6e8a7b6bb921b700ef1c3599a",//りんぐ
+            "8fdeea6fabb0797b36ebbf071cd65a9bd320b4d681b69db03d923b811ac277a1",//みきさー
+            "681f08fbc7c37cc1c921e0d92fb548007a6cfd6e07c6e6d0a3baf0b69a6d8120",//すずめ
+            "82bae538d2c2aabba703e8e01b19a5052e5922f47618783aae98d978a8d68572",//みせ
+            "33c805b7ef7606dbc7f3092208f4df6191962446a8758623aa4a22d4b8cecd6e",//くま
+            "102d96985aa7e8e56724ba5975c9ce98991dc52083a0a681d9ce300ecf4926b4",//ことぶき
+            "89ff6eda0da0618a4f72bbe9a30ece8b33efccd405844e16962579d21f32d33e",//うけつけ
+            "c26edd7ebde90557c99d660cf07bed7f81b3e0729c7ecb4d96c8594877363ade",//そう
+            "d019b8ca84d41dd12f9eeb423616cb36c772795d434feb85ea1c4fea57b7f1d1",//かもく
+            "2a1ba23cc1d5d8399b7183b24af47ec0b1304f4f2efabed7ff9ab825cdcdb0f8",//しーと
+            "52cbf7d2e61f58a18fb3d85d9d2b0fef477b25e008f9f102c78d843361d14d1a",//ちか
+            "aa296eea6d35675dcfdf532f725362b8628952c21bf4f71f1b98dc2914bb9ab1",//はいえな
+            "0223d250da4b35a510b0b364e29b2c708cff86df3f0c8126148aa94f93a9f057",//かんとう
+            "6bc4de97bfb8923a7a18691c5ba5857c36ab9dc086fa5f91fa53926a4362b347",//かがくかん
+            "7d35f4f0ad925cc8e9f524a527bedc0c74ff1ef6e0f82bdab858d8259ae61864",//たらばがに
+            "6351754c5d53a48fb09fc2212e362e26b1826e29dff423b24383b54aaafae5ad",//いんさつ
+            "30b83af1978fb5e53a0e088538ae58c1dcbf33f3def2f403ebb6499f82f6105b",//あい
+            "d359ff78c3878f263d6b6a026c9bf20244caaa9e9886df9009cd428eb7d550d2",//かいせい
+            "63baf3bbc2393366f0265d2c1ee2902f7702df61f3bcb3890b66faf9601ad0e9",//くく
         ];
 
         // 【裏の謎】
         let backHashes = [
-            "5f262b6e2129f39c4e553585cc935a3020a15f27d63a12b80c1959788b244076",
-            "bcad89d03dc316a2dc9a0be27fe021d12943c9a65ff89fa21be6dcf32be28268",
-            "bda405521f3a3ede88f7522e05f03348e42a0a7a392fda5a82a0110071317905",
-            "2a758facc818d48507b0152aa2408b00d61dcc41021b2b62c5d453f40498e8a8",
-            "648edd42e10c5a6512be3e535828f38cd8d267b2a440100d6e4c9ed5aec9f076",
-            "49ae4bef4f7ec47a37fbf1d2dada669ce98e1d127541ed031cbc4250d9c70db3",
-            "9e5deee718862f00125b9306ddd22d7b74d07ea52472f0ae7f5e324b251c37c0",
-            "12b6954a54ead3995689d490aa0cae56549e8d76adb5e8e5622ee707c147cb41",
-            "ba804410e9373ebcb55863d17b11a87bc11278bc39dafd4430e7df848d34bccf",
-            "9db9b0d1d13c019f367aab2f5e7f1284ec72e9695babfae7dcf4c1d14db5a9c7",
+            "5f262b6e2129f39c4e553585cc935a3020a15f27d63a12b80c1959788b244076",//かう
+            "bcad89d03dc316a2dc9a0be27fe021d12943c9a65ff89fa21be6dcf32be28268",//おうこく
+            "bda405521f3a3ede88f7522e05f03348e42a0a7a392fda5a82a0110071317905",//いきもの
+            "2a758facc818d48507b0152aa2408b00d61dcc41021b2b62c5d453f40498e8a8",//ひこうしき
+            "de559889502ddc744a906a2c1d4d118ae22f3479c98551855497ee8645b211e0",//きんか
+            "49ae4bef4f7ec47a37fbf1d2dada669ce98e1d127541ed031cbc4250d9c70db3",//りてん
+            "9e5deee718862f00125b9306ddd22d7b74d07ea52472f0ae7f5e324b251c37c0",//あいますく
+            "12b6954a54ead3995689d490aa0cae56549e8d76adb5e8e5622ee707c147cb41",//ないす
+            "ba804410e9373ebcb55863d17b11a87bc11278bc39dafd4430e7df848d34bccf",//はま
+            "9db9b0d1d13c019f367aab2f5e7f1284ec72e9695babfae7dcf4c1d14db5a9c7",//どる
         ];
 
         let solvedAnswers = [];
@@ -387,7 +389,7 @@
             let colorSuccess = isBackroomMode ? "#99cc99" : "#2e8b57";
 
             if (input === "") {
-                resultArea.innerText = "答えを入力してください。";
+                resultArea.innerText = "答えを入力してください";
                 resultArea.style.color = colorWarning; 
                 return;
             }
@@ -398,7 +400,7 @@
                     localStorage.setItem("nazotokiBackroomMode", "true"); 
                     document.body.classList.add("backroom-mode"); 
                     
-                    resultArea.innerText = "ようこそ、小謎展覧会のバックルームへ。";
+                    resultArea.innerText = "ようこそ、小謎展覧会のバックルームへ";
                     resultArea.style.color = "#ff5555";
                     inputField.value = "";
                     
@@ -409,7 +411,7 @@
                     updateProgress(); 
                     return;
                 } else {
-                    resultArea.innerText = "すでにバックルームに足を踏み入れています。";
+                    resultArea.innerText = "すでにバックルームに足を踏み入れています";
                     resultArea.style.color = colorError; 
                     inputField.value = "";
                     return;
@@ -417,7 +419,7 @@
             }
 
             if (solvedAnswers.includes(input)) {
-                resultArea.innerText = "解答されています。";
+                resultArea.innerText = "解答されています";
                 resultArea.style.color = colorWarning;
                 inputField.value = "";
                 return;
@@ -443,7 +445,7 @@
                 solvedAnswers.push(input); 
                 localStorage.setItem("nazotokiData", JSON.stringify(solvedAnswers));
                 
-                resultArea.innerText = "正解です。";
+                resultArea.innerText = "正解です";
                 resultArea.style.color = colorSuccess; 
                 inputField.value = ""; 
 
@@ -456,7 +458,7 @@
                 updateProgress();
 
             } else {
-                resultArea.innerText = "不正解です、もう一度考えてみましょう。";
+                resultArea.innerText = "不正解です、もう一度考えてみましょう";
                 resultArea.style.color = colorError; 
             }
         }
