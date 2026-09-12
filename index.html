@@ -23,6 +23,7 @@
         .input-block { background-color: #fff; padding: 40px 20px; margin-bottom: 40px; border: 1px solid #e0dcd3; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.05); position: relative; transition: background-color 1s, border-color 1s; }
         .input-block::before { content: ""; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; border: 1px solid #f5eedc; pointer-events: none; transition: border-color 1s; }
         
+        /* 🌟 変更：入力欄の幅を100%に広げ、文字がスマホでも見切れないように調整しました */
         input[type="text"] { 
             width: 100%; 
             max-width: 400px;
@@ -165,8 +166,8 @@
                     <!-- ▼▼ 表のヒント ▼▼ -->
                     <details class="hint-item"><summary>「０１」のヒント</summary><div class="hint-text">9×9のあれですね</div></details>
                     <details class="hint-item"><summary>「０２」のヒント</summary><div class="hint-text">？が赤色なので赤色の部分を読めばよさそうです、どこにあるのでしょうか</div></details>
-                    <details class="hint-item"><summary>「０４」のヒント</summary><div class="hint-text">インクの形に注目しましょう</div></details>
                     <details class="hint-item"><summary>「０３」のヒント</summary><div class="hint-text">トランプの数字は何文字目を読むのかを表しているようです</div></details>
+                    <details class="hint-item"><summary>「０４」のヒント</summary><div class="hint-text">インクの形に注目しましょう</div></details>
                     <details class="hint-item"><summary>「０５」のヒント</summary><div class="hint-text">コインをたくさん言い換えてみましょう</div></details>
                     <details class="hint-item"><summary>「０６」のヒント</summary><div class="hint-text">右下の写真の奥に見える橋に見覚えはないでしょうか</div></details>
                     <details class="hint-item"><summary>「０７」のヒント</summary><div class="hint-text">和同開珎パズルです、頑張りましょう</div></details>
@@ -208,10 +209,19 @@
 
                     <!-- ▼▼ 裏のヒント（裏世界に入るまでプレイヤーからは見えません） ▼▼ -->
                     <div class="backroom-hint">
-                        <details class="hint-item">
-                            <summary>裏「〇〇」のヒント</summary>
-                            <div class="hint-text">これは裏世界のヒントです。（後で書き換えてください）</div>
-                        </details>
+                        <p style="text-align:center; font-size:0.9em; color:#ccc; margin-bottom:20px; line-height: 1.6;">バックルームで解き直せる謎：０７、０８、０９、１０、１１、１５、１７、３３、３４が解き直せるようです、ここにしかない謎もあるようです</p>
+                        
+                        <details class="hint-item"><summary>「０７-裏」のヒント</summary><div class="hint-text">漢字を変化させる法則謎だったようです</div></details>
+                        <details class="hint-item"><summary>「０８-裏」のヒント</summary><div class="hint-text">他にも丸数字があったんですね</div></details>
+                        <details class="hint-item"><summary>「０９-裏」のヒント</summary><div class="hint-text">あなたがいるのは左から3つ目の四角です</div></details>
+                        <details class="hint-item"><summary>「１０-裏」のヒント</summary><div class="hint-text">栓抜きやはさみにも使われてますね</div></details>
+                        <details class="hint-item"><summary>「１１-裏」のヒント</summary><div class="hint-text">三角の左右の向きが反転します</div></details>
+                        <details class="hint-item"><summary>「１５-裏」のヒント</summary><div class="hint-text">#雑談と#会議の情報を組み合わせましょう</div></details>
+                        <details class="hint-item"><summary>「１７-裏」のヒント</summary><div class="hint-text">謎が書かれているものに注目しましょう</div></details>
+                        <details class="hint-item"><summary>「３３-裏」のヒント</summary><div class="hint-text">同じような謎を見たことがありますね</div></details>
+                        <details class="hint-item"><summary>「３４-裏」のヒント</summary><div class="hint-text">イラストの名前を入れましょう</div></details>
+                        <details class="hint-item"><summary>「万物謎」のヒント</summary><div class="hint-text">チャットログの情報を使いましょう</div></details>
+                        <details class="hint-item"><summary>「インク謎」のヒント</summary><div class="hint-text">#雑談 9月3日のこぶしの発言に注目しましょう</div></details>
                     </div>
                     <!-- ▲▲ 裏のヒント ここまで ▲▲ -->
                 </div>
@@ -278,7 +288,7 @@
             "9e5deee718862f00125b9306ddd22d7b74d07ea52472f0ae7f5e324b251c37c0", // あいますく
             "12b6954a54ead3995689d490aa0cae56549e8d76adb5e8e5622ee707c147cb41", // ないす
             "ba804410e9373ebcb55863d17b11a87bc11278bc39dafd4430e7df848d34bccf", // はま
-            "0595a8664acbabda0d079e7d36e2ce5188da917c46cbc1299aff828899d1760e", // どる
+            "9db9b0d1d13c019f367aab2f5e7f1284ec72e9695babfae7dcf4c1d14db5a9c7", // どる
             "da3ee9394bcf6b4ee4d5a73ce1f1a4a80a5290e48ed7e8bd2dfa718eba6eb8e9", // みかい
         ];
 
